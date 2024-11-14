@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import { StyleSheet, TouchableOpacity, Text, View, Image, SectionList } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import styles from './styles';
+import BottomSheet from './components/BottomSheet';
 
 const characterData = [
   {
@@ -113,14 +114,125 @@ const characterData = [
 ]
 
 export default function App() {
+  const ref = useRef(null);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+  const handleCharacterPress = (character) => {
+    setSelectedCharacter(character);
+    ref.current?.scrollTo(-200); // Open the bottom sheet
+  };
+
+  const renderCharacter = ({ item }) => (
+    <TouchableOpacity onPress={() => handleCharacterPress(item)} style={styles.characterContainer}>
+      <Image source={{ uri: item.iconURL }} style={styles.characterIcon} />
+      <Text style={styles.characterName}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+
+  const renderSectionHeader = ({ section }) => (
+    <View style={[styles.headerContainer, { backgroundColor: section.color }]}>
+      <Image source={{ uri: section.logo }} style={styles.logo} />
+      <Text style={styles.title}>{section.title}</Text>
+      <Text style={styles.description}>{section.description}</Text>
+    </View>
+  );
+
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
         <StatusBar style="light" />
+        <SectionList
+          sections={characterData}
+          keyExtractor={(item) => item.name}
+          renderItem={renderCharacter}
+          renderSectionHeader={renderSectionHeader}
+          contentContainerStyle={styles.sectionListContent}
+        />
+        <BottomSheet ref={ref}>
+          {selectedCharacter && (
+            <View style={styles.bottomSheetContent}>
+              <Image source={{ uri: selectedCharacter.iconURL }} style={styles.characterPfp} />
+              <Text style={styles.characterName}>{selectedCharacter.name}</Text>
+              <Image source={{ uri: selectedCharacter.haloURL }} style={styles.halo} />
+              <Text style={styles.liveText}>LIVE2D</Text>
+              <Image source={{ uri: selectedCharacter.liveURL }} style={styles.liveGif} />
+            </View>
+          )}
+        </BottomSheet>
       </View>
     </GestureHandlerRootView>
-
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#111',
+  },
+  sectionListContent: {
+    paddingHorizontal: 10,
+  },
+  headerContainer: {
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  logo: {
+    width: 70,
+    height: 70,
+    marginBottom: 5,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+  },
+  description: {
+    fontSize: 14,
+    color: 'white',
+    marginVertical: 5,
+    textAlign: 'center',
+  },
+  characterContainer: {
+    flex: 1,
+    alignItems: 'center',
+    margin: 5,
+    width: '22%', // Adjusted to allow a maximum of 4 per row
+  },
+  characterIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  characterName: {
+    color: 'white',
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  bottomSheetContent: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  characterPfp: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 10,
+  },
+  halo: {
+    width: 80,
+    height: 80,
+    marginBottom: 10,
+  },
+  liveText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+    marginVertical: 10,
+  },
+  liveGif: {
+    width: 300,
+    height: 300,
+  },
+});
