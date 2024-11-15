@@ -4,6 +4,8 @@ import { StyleSheet, TouchableOpacity, Text, View, Image, SectionList } from 're
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet from './components/BottomSheet';
 
+const REMOTE_GIF = 'https://static.wikia.nocookie.net/blue-archive/images/3/31/Aru_Dress_Live2D.gif';
+
 const characterData = [
   {
     title: 'Abydos High School',
@@ -141,6 +143,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <StatusBar style="light" />
+        <Image autoplay={true} source={{ uri: REMOTE_GIF }} style={{width: 360, height: 202}} />
         <SectionList
           sections={characterData}
           keyExtractor={(item) => item.name}
@@ -234,5 +237,6 @@ const styles = StyleSheet.create({
   liveGif: {
     width: 300,
     height: 300,
+    
   },
 });
