@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kittymittens11.expotemplateblank"
     },
     "web": {
       "favicon": "./assets/favicon.png"
