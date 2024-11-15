@@ -11,7 +11,7 @@ const characterData = [
     title: 'Abydos High School',
     description: 'It used to be a thriving and prestigious school before desertification. Now, all that remains is a shadow of its former glory, with nothing more than an annex building and five students with an enormous debt to pay off.',
     logo: 'https://static.wikia.nocookie.net/blue-archive/images/4/4c/Abydos_Icon.png/revision/latest/scale-to-width-down/70?cb=20210203172448',
-    color: '#0aa6df',
+    color: '#06BBFA',
     data: [
       {
         name: 'Shiroko',
@@ -31,7 +31,7 @@ const characterData = [
     title: 'Gehenna Academy',
     description: 'A school that runs along the concept of "Freedom and Chaos." In contrast to its long rival, Trinity, this school is arguably the most chaotic out of all the schools.',
     logo: 'https://static.wikia.nocookie.net/blue-archive/images/2/23/Gehenna_Icon.png/revision/latest/scale-to-width-down/70?cb=20210205120343',
-    color: '#776983',
+    color: '#E34A45',
     data: [
       {
         name: 'Hina',
@@ -57,7 +57,7 @@ const characterData = [
     title: 'Millennium Science School',
     description: 'Despite its young age, it has carved its own path to become one of the largest schools in Kivotos. It values logic and technical skill over everything. If you are looking for technology, this is the place to go.',
     logo: 'https://static.wikia.nocookie.net/blue-archive/images/a/ad/Millennium_Icon.png/revision/latest/scale-to-width-down/70?cb=20210205120345',
-    color: '#3b455a',
+    color: '#4F86F7',
     data: [
       {
         name: 'Karin',
@@ -76,8 +76,8 @@ const characterData = [
   {
     title: 'Trinity General School',
     description: 'A seemingly religious school that values order and etiquette. Unlike its long rival, Gehenna, this school is considerably the most orderly out of any school in Kivotos...at least, on the surface.',
-    logo: 'https://static.wikia.nocookie.net/blue-archive/images/0/0d/Trinity_General_School_Logo.png/revision/latest?cb=20210601102040',
-    color: '#5575b8',
+    logo: 'https://static.wikia.nocookie.net/blue-archive/images/9/98/Trinity_Icon.png/revision/latest/scale-to-width-down/70?cb=20210205120349',
+    color: '#FBB35A',
     data: [
       {
         name: 'Mika',
@@ -97,7 +97,7 @@ const characterData = [
     title: 'Shanhaijing Senior Secondary School',
     description: 'A school that focuses more on business and commerce, visibly prioritizing money over culture. This school is more known for its delicious restaurants and tourism.',
     logo: 'https://static.wikia.nocookie.net/blue-archive/images/7/73/Shanhaijing_Icon.png/revision/latest/scale-to-width-down/70?cb=20210205120348',
-    color: '#3c3140',
+    color: '#03C03C',
     data: [
       {
         name: 'Kokona',
@@ -143,7 +143,6 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <StatusBar style="light" />
-        <Image autoplay={true} source={{ uri: REMOTE_GIF }} style={{width: 360, height: 202}} />
         <SectionList
           sections={characterData}
           keyExtractor={(item) => item.name}
@@ -158,7 +157,9 @@ export default function App() {
               <Text style={styles.characterName}>{selectedCharacter.name}</Text>
               <Image source={{ uri: selectedCharacter.haloURL }} style={styles.halo} />
               <Text style={styles.liveText}>LIVE2D</Text>
-              <Image source={{ uri: selectedCharacter.liveURL }} style={styles.liveGif} />
+              <View>
+                <Image source={{ uri: selectedCharacter.liveURL }} autoplay={true} style={styles.liveGif} />
+              </View>
             </View>
           )}
         </BottomSheet>
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   headerContainer: {
-    paddingVertical: 10,
+    paddingVertical: 20,
     alignItems: 'center',
   },
   logo: {
@@ -193,14 +194,16 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: 'white',
-    marginVertical: 5,
+    marginVertical: 10,
+    paddingHorizontal: 20,
     textAlign: 'center',
   },
   characterContainer: {
     flex: 1,
     alignItems: 'center',
-    margin: 5,
-    width: '22%', // Adjusted to allow a maximum of 4 per row
+    margin: 10,
+    width: '22%', 
+    padding: 5,
   },
   characterIcon: {
     width: 60,
@@ -235,8 +238,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   liveGif: {
-    width: 300,
-    height: 300,
-    
+    width: 360,
+    height: 202,
   },
 });
